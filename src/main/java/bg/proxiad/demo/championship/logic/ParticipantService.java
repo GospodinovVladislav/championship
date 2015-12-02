@@ -13,4 +13,6 @@ public interface ParticipantService {
 	Collection<Participant> listAllParticipants();
 	
 	void deleteParticipant(Long id);
+	
+	void updateParticipant(Participant participant);
 }

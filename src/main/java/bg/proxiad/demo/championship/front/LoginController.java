@@ -111,9 +111,11 @@ public class LoginController {
 
 		for (User u : listUsers) {
 			if (u.getEmail().equals(mail)) {
+				System.out.println("exist");
 				return "Mail already exist";
 			}
 		}
+		System.out.println("doesnt exist");
 		return "";
 	}
 

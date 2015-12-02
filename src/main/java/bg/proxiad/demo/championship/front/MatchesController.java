@@ -75,9 +75,6 @@ public class MatchesController {
 		
 		Match match = matchService.loadMatch(matchID);
 		
-		Double num= 100d;
-		System.out.println(String.valueOf(num));
-		
 		model.addAttribute("match",match);
 		return "editMatchScore";
 	}

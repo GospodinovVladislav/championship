@@ -60,6 +60,6 @@ public class MyRealm extends AuthorizingRealm {
 				System.out.println("NOT FOUND!");
 			}
 		}
-		return null;
+		throw new AuthenticationException("Wrong username or password!");
 	}
 }

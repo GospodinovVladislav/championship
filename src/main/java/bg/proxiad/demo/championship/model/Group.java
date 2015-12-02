@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "GROUP")
@@ -20,6 +22,8 @@ public class Group {
 	private Long id;
 	
 	@Column(name="GROUP_NAME")
+	@Pattern(regexp = "^[A-Za-z ]+$",message = "Group must contain only characters")
+	@Size(min=1,max=10,message="Size of the name should be from {min} to {max}")
 	private String groupName;
 	
 	@Column(name="STAGE")

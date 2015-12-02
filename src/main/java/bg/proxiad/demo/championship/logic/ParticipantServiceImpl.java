@@ -37,4 +37,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 		participantDao.deleteParticipant(id);
 	}
 	
+	@Override
+	public void updateParticipant(Participant participant){
+		participantDao.updateParticipant(participant);
+	}
+	
 }

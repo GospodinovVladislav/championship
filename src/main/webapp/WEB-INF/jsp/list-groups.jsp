@@ -22,8 +22,7 @@
 	<h1 style="color: purple" class="text-center">Groups</h1>
 
 	<shiro:hasRole name="admin">
-		<button class="createGroup center btn btn-lg btn-success center-block">Create
-			New Group</button>
+		<a data-toggle="modal" class="btn btn-info" href="/championship/app/groups/createGroup" data-target="#myModal">Create Group</a>
 	</shiro:hasRole>
 
 
@@ -153,6 +152,13 @@
 
 		</display:table>
 	</div>
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
 
 	<link rel="stylesheet"
 		href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -161,8 +167,61 @@
 
 	<script type="text/javascript">
 		<jsp:include page="/js/deleteGroup.js"/>
-		<jsp:include page="/js/addNewGroup.js"/>
 		<jsp:include page="/js/editGroup.js"/>
+		
+			$('body').on('hidden.bs.modal', '.modal', function () {
+			    $(this).removeData('bs.modal');
+			});
+			
+			
+			function submit(){
+				if(existsCheck() && regexCheck()){
+					$("#new_group_submit").click();
+					$('#myModal').modal('hide')
+					location.reload();
+				}
+			}
+			
+			
+			
+			function existsCheck(){
+				var groupName = $('.group_name').val();
+				
+				$.ajax({
+				    type : "GET",
+				    url : "/championship/app/groups/"  + groupName + "/checkGroupName",
+				    success: function(response) {
+				    		$("#groupNameExists").text(response);
+				    		$("#groupNameExists").css('color','red');
+				    		$("#groupNameExists").css('font-size','13px');
+				      },
+				    error: function(err) {
+			            $("#groupNameExists").text("Enter group name!");
+			            return false;
+			          }
+				}); 
+				
+				if(($.trim($("#groupNameExists").html()) == "")){
+						return true;
+				} else {
+					return false;
+				}
+				
+			}
+			
+			function regexCheck(){
+				var regex = /^[a-zA-Z ]{3,30}$/;
+				if(!regex.test($('.group_name').val())){
+					$("#groupNameWrongReg").text("Name should contain only characters with lenght 3-30.");
+					$("#groupNameWrongReg").css('color','red');
+					$("#groupNameWrongReg").css('font-size','11px');
+					return false;
+				} else {
+					$("#groupNameWrongReg").text("");
+					return true;
+				}
+			}
+			
 	</script>
 
 </body>

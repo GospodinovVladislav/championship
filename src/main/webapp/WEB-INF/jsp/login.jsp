@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -138,6 +139,10 @@ body {
 									<div class="form-group">
 										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
 									</div>
+									<c:if test="${shiroLoginFailure != null}">
+   										<font color="red">Username or password incorrect</font> 
+									</c:if>
+									<br>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
@@ -148,11 +153,12 @@ body {
 								</form>
 								<form id="register-form" action="/championship/app/users/add" method="post" onsubmit="return validate()" role="form" style="display: none;" enctype="multipart/form-data">
 									<div class="form-group">
-										<input type="email" name="email" onkeyup="isMailOk()" id="email" tabindex="1" class="e-mail form-control" placeholder="Email Address" value="">
-										<span class="mail_span"/>
+										<input type="email" name="email" onkeyup="mailRegEx()" onchange="mailExists()" id="email" tabindex="1" class="e-mail form-control" placeholder="Email Address" value="">
+										<span class="mail_span"></span>
+										<span class="exist_mail"></span>
 									</div>
 									<div class="form-group">
-										<input type="password" name="password" onkeyup="isPasswordOk()" id="password" tabindex="1" class="password form-control" placeholder="Password">
+										<input type="password" name="password" onchange="isPasswordOk()" id="password_reg" tabindex="1" class="password_reg form-control" placeholder="Password">
 										<span class="password_span"/>
 									</div>
 									<div class="form-group">

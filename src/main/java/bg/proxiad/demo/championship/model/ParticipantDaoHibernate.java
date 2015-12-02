@@ -35,6 +35,11 @@ public class ParticipantDaoHibernate implements ParticipantDao {
 		Participant participant = load(id);
 		sessionFactory.getCurrentSession().delete(participant);
 	}
+	
+	@Override
+	public void updateParticipant(Participant participant){
+		sessionFactory.getCurrentSession().update(participant);
+	}
 
 	
 	

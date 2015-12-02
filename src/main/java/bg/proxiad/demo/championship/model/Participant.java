@@ -1,16 +1,16 @@
 package bg.proxiad.demo.championship.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "PARTICIPANT")
@@ -22,19 +22,21 @@ public class Participant {
 	private Long id;
 	
 	@Column(name="FIRST_NAME")
+	@Pattern(regexp = "^[A-Za-z]+$",message="Must contain only characters")
+	@Size(min=3,max=10,message="Size must be between {min} and {max} characters")
 	private String firstName;
 	
 	@Column(name="LAST_NAME")
+	@Pattern(regexp = "^[A-Za-z]+$",message="Must contain only characters")
+	@Size(min=3,max=10,message="Size must be between {min} and {max} characters")
 	private String lastName;
 	
 	@Column(name="EMAIL")
+	@Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",message="Wrong email format")
 	private String email;
 	
 	@Column(name="PHOTO_FILE_NAME")
 	private String photoFileName;
-	
-	
-	
 	
 	
 	@ManyToOne

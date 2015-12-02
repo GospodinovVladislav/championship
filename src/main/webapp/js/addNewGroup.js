@@ -77,6 +77,7 @@ function isNameOk(){
 function checkGroupSpan(){
 	if($(".group_span").text() == ""){
 		return true;
+		
 	} else {
 		return false;
 	}

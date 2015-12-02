@@ -5,14 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import bg.proxiad.demo.championship.logic.GroupsService;
 import bg.proxiad.demo.championship.logic.ParticipantService;
@@ -112,31 +121,124 @@ public class ParticipantsController {
 		return "redirect:/app/participants";
 	}
 	
-	@RequestMapping(value = "/add",method = RequestMethod.POST)
-	public String addParticipant(@RequestParam("first_name") String firstName,
-								@RequestParam("last_name") String lastName,
-								@RequestParam("e-mail") String mail){
+	@RequestMapping(value="/add",method = RequestMethod.GET)
+	public String addParticipantView(ModelMap model){
 		
 		Participant participant = new Participant();
 		
-		participant.setFirstName(firstName);
-		participant.setLastName(lastName);
-		participant.setEmail(mail);
+		model.addAttribute("participant",participant);
+		return "addParticipant";
+	}
+	
+	
+	@RequestMapping(value = "/add",method = RequestMethod.POST)
+	public String addParticipant(@RequestParam(value = "picture", required = false) MultipartFile image,
+								@Valid @ModelAttribute("participant") Participant participant,
+								BindingResult result){
+		
+		List<Participant> participants = (List<Participant>) participantService.listAllParticipants();
+		
+		for(Participant p:participants){
+			if(p.getEmail().equals(participant.getEmail())){
+				result.addError(new FieldError("participant", "email", "Email already exist"));
+			}
+		}
+		
+		
+		if(result.hasErrors()){
+			return "addParticipant";
+		}
+		
+		
+		String folderPath = context.getRealPath("/") + "\\images\\";
+		String imageName;
+
+		if (image.getOriginalFilename().equals("")) {
+			imageName = "default.jpeg";
+		} else {
+			int dot = image.getOriginalFilename().indexOf(".");
+			String ext = image.getOriginalFilename().substring(dot, image.getOriginalFilename().length());
+			imageName = participant.getFirstName() + participant.getLastName() + ext;
+		}
+
+		PictureOperations.savePicture(folderPath, imageName, image);
+		participant.setPhotoFileName(imageName);
+		
+		
+		Score score = new Score();
+		scoreService.saveOrUpdateScore(score);
+		score.setParticipant(participant);
+		
 		participantService.saveOrUpdateParticipant(participant);
 		return "redirect:/app/participants";
 	}
 	
-	@RequestMapping("/edit")
-	public String editParticipant(@RequestParam("first_name") String firstName,
-								@RequestParam("last_name") String lastName,
-								@RequestParam("e-mail") String mail,
-								@RequestParam("id") long id){
+	
+	@RequestMapping(value = "{participantID}/edit",method = RequestMethod.GET)
+	public String editParticipantView(@PathVariable("participantID") long  participantID, ModelMap model){
+		Participant participant = participantService.loadParticipant(participantID);
+		model.addAttribute("participant",participant);
+		return "editParticipant";
+	}
+	
+	
+	
+	@RequestMapping(value = "/edit",method = RequestMethod.POST)
+	public String editParticipant(@RequestParam(value = "picture", required = false) MultipartFile image,
+								@Valid @ModelAttribute("participant") Participant participant,
+								BindingResult result){
 		
-		Participant participant = participantService.loadParticipant(id);
-		participant.setFirstName(firstName);
-		participant.setLastName(lastName);
-		participant.setEmail(mail);
-		participantService.saveOrUpdateParticipant(participant);
+		
+		Participant oldParticipant = participantService.loadParticipant(participant.getId());
+		
+		List<Participant> participants = (List<Participant>) participantService.listAllParticipants();
+		
+		for(Participant p:participants){
+			if(p.getEmail().equals(participant.getEmail()) && !p.getEmail().equals(oldParticipant.getEmail())){
+				result.addError(new FieldError("participant", "email", "Email already exist"));
+			}
+		}
+		
+		
+		if(result.hasErrors()){
+			return "editParticipant";
+		}
+		
+		
+		String imageName = participant.getPhotoFileName();
+		if (!image.getOriginalFilename().equals("")) {
+
+			System.out.println("In edit pic");
+			
+			String folderPath = context.getRealPath("/") + "\\images\\";
+			
+			System.out.println(folderPath);
+
+			if (image.getOriginalFilename().equals("")) {
+				imageName = "default.jpeg";
+			} else {
+				int dot = image.getOriginalFilename().indexOf(".");
+				String ext = image.getOriginalFilename().substring(dot, image.getOriginalFilename().length());
+				imageName = participant.getFirstName() + participant.getLastName() + ext;
+			
+			}
+
+			PictureOperations.deletePicture(participant.getPhotoFileName(), context);
+			PictureOperations.savePicture(folderPath, imageName, image);
+
+			participant.setPhotoFileName(imageName);
+		}
+		System.out.println(participant.getScore());
+		
+		
+		
+		oldParticipant.setFirstName(participant.getFirstName());
+		oldParticipant.setLastName(participant.getLastName());
+		oldParticipant.setEmail(participant.getEmail());
+		oldParticipant.setPhotoFileName(participant.getPhotoFileName());
+		
+		participantService.saveOrUpdateParticipant(oldParticipant);
+		
 		
 		return "redirect:/app/participants";
 	}

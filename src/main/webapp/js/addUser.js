@@ -19,10 +19,8 @@ function readURL(input) {
 
 function isPasswordOk(){
 	var regex = /^[a-zA-Z0-9]{4,10}$/;
-	if($('.password').val() == ""){
-		return true;
-	}
-	if(!regex.test($('.password').val())){
+	
+	if(!regex.test($('.password_reg').val())){
 		$(".password_span").text("Password can contain characters and numbers with lenght 4-10.");
 		$(".password_span").css('color','red');
 		$(".password_span").css('font-size','13px');
@@ -59,7 +57,7 @@ function isLastNameOk(){
 	}
 }
 
-function isMailOk(){
+function mailExists(){
 	
 	var mail = $('.e-mail').val();
 	
@@ -67,40 +65,39 @@ function isMailOk(){
 	    type : "GET",
 	    url : "/championship/app/checkMail/" + mail,
 	    success: function(response) {
-	    	if(($(".mail_span").text() == "")){
-	    		$(".mail_span").text(response);
-	    		$(".mail_span").css('color','red');
-	    		$(".mail_span").css('font-size','13px');
-	    	}
+	    		$(".exist_mail").text(response);
+	    		$(".exist_mail").css('color','red');
+	    		$(".exist_mail").css('font-size','13px');
 	      },
 	    error: function(err) {
-            $(".mail_span").text("Enter e-mail");
+            $(".exist_mail").text("Enter e-mail");
           }
 	}); 
 	
+	if(($.trim($(".exist_mail").html()) == "")){
+		return true;
+} else {
+	return false;
+}
 	
+}
+
+function mailRegEx(){
 	var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/;
 	if(!regex.test($('.e-mail').val())){
-		$(".mail_span").text("Invalid E-Mail.");
+		$(".mail_span").text("Invalid E-Mail Format.");
 		$(".mail_span").css('color','red');
 		$(".mail_span").css('font-size','13px');
-	} else {
-		if($(".mail_span").text() != "")
-				$(".mail_span").text("");
-	}
-	
-	if($(".mail_span").text() != ""){
 		return false;
 	} else {
-		return true;
+			$(".mail_span").text("");
+			return true;
 	}
 }
 
-
-
 function validate(){
 	
-	if(isMailOk() && isPasswordOk() && isNameOk() && isLastNameOk() ){
+	if(mailExists() && mailRegEx() && isPasswordOk() && isNameOk() && isLastNameOk() ){
 		return true;
 	} else 
 		return false;

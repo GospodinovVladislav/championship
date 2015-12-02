@@ -11,5 +11,7 @@ public interface ParticipantDao {
 	Collection<Participant> listAll();
 	
 	void deleteParticipant(Long id);
+	
+	void updateParticipant(Participant participant);
 
 }
