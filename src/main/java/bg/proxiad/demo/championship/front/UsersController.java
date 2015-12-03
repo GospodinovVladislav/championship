@@ -25,8 +25,13 @@ import bg.proxiad.demo.championship.model.User;
 @RequestMapping("/users")
 public class UsersController {
 
-	@Autowired
+	
 	private UserService userService;
+	
+	@Autowired
+	public UsersController(UserService userService) {
+		this.userService = userService;
+	}
 	
 	@Autowired
 	private ParticipantService participantService;
