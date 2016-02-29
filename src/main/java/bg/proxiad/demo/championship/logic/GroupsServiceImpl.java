@@ -130,7 +130,7 @@ public class GroupsServiceImpl implements GroupsService {
 		
 		
 		Group quarterFinalGroup1 = new Group();
-		quarterFinalGroup1.setGroupName("Quarter Finals 1");
+		quarterFinalGroup1.setGroupName("Quar One");
 		quarterFinalGroup1.setStage("quarter");
 		for(Participant p : participantsGroup1){
 			p.setQuarterParticipantGroup(quarterFinalGroup1);
@@ -141,7 +141,7 @@ public class GroupsServiceImpl implements GroupsService {
 		
 		
 		Group quarterFinalGroup2 = new Group();
-		quarterFinalGroup2.setGroupName("Quarter Finals 2");
+		quarterFinalGroup2.setGroupName("Quar Two");
 		quarterFinalGroup2.setStage("quarter");
 		
 		for(Participant p : participantsGroup2){
@@ -186,7 +186,7 @@ public class GroupsServiceImpl implements GroupsService {
 		semi2Participants.add(quarter1Winner2);
 		
 		Group semi1 = new Group();
-		semi1.setGroupName("Semi Finals 1");
+		semi1.setGroupName("Semi One");
 		semi1.setStage("semi");
 		
 		for(Participant p : semi1Participants){
@@ -199,7 +199,7 @@ public class GroupsServiceImpl implements GroupsService {
 		
 		
 		Group semi2 = new Group();
-		semi2.setGroupName("Semi Finals 2");
+		semi2.setGroupName("Semi Two");
 		semi2.setStage("semi");
 		
 		for(Participant p : semi2Participants){
@@ -259,7 +259,7 @@ public class GroupsServiceImpl implements GroupsService {
 		thirdPlaceParticipants.add(semi1Loser);
 		
 		Group thirdPlace = new Group();
-		thirdPlace.setGroupName("Third Place");
+		thirdPlace.setGroupName("Third");
 		thirdPlace.setStage("final");
 		
 		for(Participant p : thirdPlaceParticipants){
@@ -276,7 +276,7 @@ public class GroupsServiceImpl implements GroupsService {
 		firstPlaceParticipants.add(semi1Winner);
 		
 		Group first = new Group();
-		first.setGroupName("First Place");
+		first.setGroupName("First");
 		first.setStage("final");
 		
 		for(Participant p : firstPlaceParticipants){

@@ -160,6 +160,7 @@ public class GroupController {
 	public String createGroupModal(ModelMap model){
 		Group group = new Group();
 		group.setNumberParticipants(2);
+	//	groupsService.saveOrUpdateGroup(group);
 		model.addAttribute("group",group);
 		return "createGroupModal";
 	}
@@ -172,12 +173,12 @@ public class GroupController {
 
 		List<Participant> freeParticipants = getFreeParticipants();
 		
-		Group g = groupsService.loadGroup(group.getId());
-		g.setGroupName(group.getGroupName());
-		g.setNumberParticipants(group.getNumberParticipants());
-		g.setStage("group");
+		//Group g = groupsService.loadGroup(group.getId());
+		//g.setGroupName(group.getGroupName());
+		//g.setNumberParticipants(group.getNumberParticipants());
+		group.setStage("group");
 
-		groupsService.saveOrUpdateGroup(g);
+		groupsService.saveOrUpdateGroup(group);
 
 		model.addAttribute("groupName", group.getGroupName());
 		model.addAttribute("nubmerOfPersons", group.getNumberParticipants());

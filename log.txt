@@ -1,8 +1,8 @@
 INFO - Mapped "{[/users/{userID}/delete]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.deleteUser(java.lang.Long)
-INFO - Mapped "{[/users],methods=[GET]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.listUsers(org.springframework.ui.ModelMap)
-INFO - Mapped "{[/users/add],methods=[POST]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.addUser(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)
 INFO - Mapped "{[/users/{userID}/openForEdit]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.openForEdit(long,org.springframework.ui.ModelMap)
 INFO - Mapped "{[/users/edit]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.editUser(java.lang.String,java.lang.String,long,java.lang.String,org.springframework.web.multipart.MultipartFile,java.lang.String)
+INFO - Mapped "{[/users],methods=[GET]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.listUsers(org.springframework.ui.ModelMap)
+INFO - Mapped "{[/users/add],methods=[POST]}" onto public java.lang.String bg.proxiad.demo.championship.front.UsersController.addUser(java.lang.String,java.lang.String,java.lang.String,java.lang.String,org.springframework.web.multipart.MultipartFile)
 INFO - HV000001: Hibernate Validator 5.2.2.Final
 INFO - Looking for @ControllerAdvice: org.springframework.test.web.servlet.setup.StubWebApplicationContext@3ec300f1
 INFO - Initializing Spring FrameworkServlet ''

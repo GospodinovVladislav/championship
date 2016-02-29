@@ -46,8 +46,8 @@
 			property="score.pointsTaken" class="pointsTaken" />
 		<display:column title="Score" sortable="true" property="score.score"
 			class="score" />
+			
 		<shiro:hasRole name="admin">
-
 			<display:column>
 				<a href='#' class="editParticipant">Edit</a>
 			</display:column>
@@ -55,6 +55,7 @@
 				<a href='#' class="deleteParticipant">Remove</a>
 			</display:column>
 		</shiro:hasRole>
+		
 	</display:table>
 </div>
 

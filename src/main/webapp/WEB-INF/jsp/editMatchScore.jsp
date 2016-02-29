@@ -96,7 +96,9 @@
 <script type="text/javascript">
 
 
-$('#update').on('click', function() {
+$('#update').on('click', function(event) {
+	
+	event.preventDefault();
 	
 	var setOneHost = $("#setOneHost").val();
 	var setOneGuest = $("#setOneGuest").val();
@@ -118,10 +120,16 @@ $('#update').on('click', function() {
 		url : "/championship/app/matches/" + matchID + "/editMatchScore/" + setOneHost  + "/" + setOneGuest
 													 + "/" + setTwoHost  + "/" + setTwoGuest
 													 + "/" + setThreeHost  + "/" + setThreeGuest,
+		
+		dataType: 'text', 
+		error : function(){
+			
+			$('#myModal').modal('hide');
+			location.reload();
+		},
 	});
 	
-	$('#myModal').modal('hide')
-	location.reload();
+	
 });
 
 </script>
